@@ -1,0 +1,9 @@
+{% extends 'sample/base.html' %}
+{% block title %}カード追加{% endblock %}
+{% block content %}
+    <h2>カード追加</h2>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="登録">
+    </form>
+{% endblock %}

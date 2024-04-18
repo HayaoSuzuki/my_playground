@@ -1,0 +1,28 @@
+[tool.ruff]
+exclude = [
+    ".venv",
+    "manage.py",
+    "db.sqlite3",
+]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "F",  # Pyflakes
+    "E",  # pycodestyle error
+    "W",  # pycodestyle warning
+    "C90",  # mccabe
+    "I", # isort
+    "N", # pep8-naming
+    "UP", # pyupgrade
+    "YTT", # flake8-2020
+    "FBT", # flake8-boolean-trap
+    "B", # flake8-bugbear
+    "A", # flake8-builtins
+    "DJ", # flake8-django
+    "INP", # flake8-no-pep420
+]
+ignore = ["E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10

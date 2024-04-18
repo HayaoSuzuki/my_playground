@@ -1,0 +1,28 @@
+{% extends 'sample/base.html' %}
+{% block title %}カード一覧{% endblock %}
+{% block content %}
+        <p><a href="{% url 'sample:create' %}">新規追加</a></p>
+
+    {% if card_list %}
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>数値</th>
+                <th>スート</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for card in card_list %}
+                <tr>
+                    <td>{{ card.pk }}</td>
+                    <td>{{ card.number }}</td>
+                    <td>{{ card.suit}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>カードはありません</p>
+    {% endif %}
+{% endblock %}
