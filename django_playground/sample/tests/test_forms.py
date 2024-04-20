@@ -40,7 +40,7 @@ class TestCardForm(hypothesis.extra.django.TestCase):
 
     @hypothesis.given(
         number=st.integers(min_value=1, max_value=13),
-        suit=st.characters(exclude_characters=Suit.values) | st.just(None),
+        suit=st.characters(exclude_characters=Suit.values, codec="utf-8") | st.just(None),
     )
     def test_invalid_suit(self, number: Number, suit: str):
         form_data = {"number": number, "suit": suit}

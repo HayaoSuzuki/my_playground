@@ -1,3 +1,5 @@
+import http
+
 import hypothesis
 import hypothesis.extra.django
 import hypothesis.strategies as st
@@ -19,7 +21,7 @@ class TestCardListView(hypothesis.extra.django.TestCase):
 
         response = client.get(reverse("sample:list"))
 
-        assert response.status_code == 200
+        assert response.status_code == http.HTTPStatus.OK
         assert len(response.context["card_list"]) == 1
 
     @hypothesis.given(size=st.integers(min_value=0, max_value=100))
@@ -29,7 +31,7 @@ class TestCardListView(hypothesis.extra.django.TestCase):
 
         response = client.get(reverse("sample:list"))
 
-        assert response.status_code == 200
+        assert response.status_code == http.HTTPStatus.OK
         assert len(response.context["card_list"]) == size
 
 
@@ -38,10 +40,10 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
         client = Client()
         response = client.get(reverse("sample:create"))
 
-        assert response.status_code == 200
+        assert response.status_code == http.HTTPStatus.OK
 
     @hypothesis.given(
-        number=st.integers(min_value=1, max_value=13),
+        number=st.integers(min_value=Number.ACE.value, max_value=Number.KING.value),
         suit=st.sampled_from(Suit.values),
     )
     def test_valid_post_request(self, number: Number, suit: Suit):
@@ -49,7 +51,7 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
         form_data = {"number": number, "suit": suit}
         response = client.post(reverse("sample:create"), data=form_data)
 
-        assert response.status_code == 302
+        assert response.status_code == http.HTTPStatus.FOUND
         assert Card.objects.count() == 1
 
         card = Card.objects.first()
@@ -66,17 +68,17 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
         form_data = {"number": number, "suit": suit}
         response = client.post(reverse("sample:create"), data=form_data)
 
-        assert response.status_code == 200
+        assert response.status_code == http.HTTPStatus.OK
         assert Card.objects.count() == 0
 
     @hypothesis.given(
-        number=st.integers(min_value=1, max_value=13),
-        suit=st.characters(exclude_characters=Suit.values) | st.just(""),
+        number=st.integers(min_value=Number.ACE.value, max_value=Number.KING.value),
+        suit=st.characters(exclude_characters=Suit.values, codec="utf-8") | st.just(""),
     )
     def test_invalid_post_by_suit(self, number: int, suit: str):
         client = Client()
         form_data = {"number": number, "suit": suit}
         response = client.post(reverse("sample:create"), data=form_data)
 
-        assert response.status_code == 200
+        assert response.status_code == http.HTTPStatus.OK
         assert Card.objects.count() == 0

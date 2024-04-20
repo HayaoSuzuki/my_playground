@@ -32,7 +32,7 @@ class TestCardModel(hypothesis.extra.django.TestCase):
 
     @hypothesis.given(
         number=st.integers(min_value=Number.ACE.value, max_value=Number.KING.value),
-        suit=st.characters(exclude_characters=Suit.values) | st.just(None),
+        suit=st.characters(exclude_characters=Suit.values, codec="utf-8") | st.just(None),
     )
     def test_invalid_suit(self, number: Number, suit: str):
         card = Card(number=number, suit=suit)
