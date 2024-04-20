@@ -19,16 +19,8 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install tox and any other packages
-        run: pip install tox
+        run: pip install tox-uv
       - name: Run lint
         run: | 
           cd django_playground
-          tox -e py -e lint
-      - name: Run mypy
-        run: | 
-          cd django_playground
-          tox -e py -e type
-      - name: Run test
-        run: | 
-          cd django_playground
-          tox -e py -e test
+          tox run-parallel -e py --skip-env format
