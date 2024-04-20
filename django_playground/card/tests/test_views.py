@@ -19,7 +19,7 @@ class TestCardListView(hypothesis.extra.django.TestCase):
         client = Client()
         CardFactory(number=number, suit=suit)
 
-        response = client.get(reverse("sample:list"))
+        response = client.get(reverse("card:list"))
 
         assert response.status_code == http.HTTPStatus.OK
         assert len(response.context["card_list"]) == 1
@@ -29,7 +29,7 @@ class TestCardListView(hypothesis.extra.django.TestCase):
         client = Client()
         CardFactory.create_batch(size=size)
 
-        response = client.get(reverse("sample:list"))
+        response = client.get(reverse("card:list"))
 
         assert response.status_code == http.HTTPStatus.OK
         assert len(response.context["card_list"]) == size
@@ -38,7 +38,7 @@ class TestCardListView(hypothesis.extra.django.TestCase):
 class TestCardCreateView(hypothesis.extra.django.TestCase):
     def test_get_request(self):
         client = Client()
-        response = client.get(reverse("sample:create"))
+        response = client.get(reverse("card:create"))
 
         assert response.status_code == http.HTTPStatus.OK
 
@@ -49,7 +49,7 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
     def test_valid_post_request(self, number: Number, suit: Suit):
         client = Client()
         form_data = {"number": number, "suit": suit}
-        response = client.post(reverse("sample:create"), data=form_data)
+        response = client.post(reverse("card:create"), data=form_data)
 
         assert response.status_code == http.HTTPStatus.FOUND
         assert Card.objects.count() == 1
@@ -66,7 +66,7 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
     def test_invalid_post_by_number(self, number: int, suit: str):
         client = Client()
         form_data = {"number": number, "suit": suit}
-        response = client.post(reverse("sample:create"), data=form_data)
+        response = client.post(reverse("card:create"), data=form_data)
 
         assert response.status_code == http.HTTPStatus.OK
         assert Card.objects.count() == 0
@@ -78,7 +78,7 @@ class TestCardCreateView(hypothesis.extra.django.TestCase):
     def test_invalid_post_by_suit(self, number: int, suit: str):
         client = Client()
         form_data = {"number": number, "suit": suit}
-        response = client.post(reverse("sample:create"), data=form_data)
+        response = client.post(reverse("card:create"), data=form_data)
 
         assert response.status_code == http.HTTPStatus.OK
         assert Card.objects.count() == 0

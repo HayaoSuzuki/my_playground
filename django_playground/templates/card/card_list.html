@@ -1,7 +1,7 @@
-{% extends 'sample/base.html' %}
+{% extends 'card/base.html' %}
 {% block title %}カード一覧{% endblock %}
 {% block content %}
-        <p><a href="{% url 'sample:create' %}">新規追加</a></p>
+        <p><a href="{% url 'card:create' %}">新規追加</a></p>
 
     {% if card_list %}
         <table>
