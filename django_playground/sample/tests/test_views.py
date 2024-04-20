@@ -22,6 +22,16 @@ class TestCardListView(hypothesis.extra.django.TestCase):
         assert response.status_code == 200
         assert len(response.context["card_list"]) == 1
 
+    @hypothesis.given(size=st.integers(min_value=0, max_value=100))
+    def test_card_list_by_batch(self, size: int):
+        client = Client()
+        CardFactory.create_batch(size=size)
+
+        response = client.get(reverse("sample:list"))
+
+        assert response.status_code == 200
+        assert len(response.context["card_list"]) == size
+
 
 class TestCardCreateView(hypothesis.extra.django.TestCase):
     def test_get_request(self):
