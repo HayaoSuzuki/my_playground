@@ -26,8 +26,8 @@ class TestCardModel(hypothesis.extra.django.TestCase):
         suit=st.sampled_from(Suit.values),
     )
     def test_invalid_number(self, number: int, suit: Suit):
+        card = Card(number=number, suit=suit)
         with pytest.raises(ValidationError):
-            card = Card(number=number, suit=suit)
             card.full_clean()
 
     @hypothesis.given(
@@ -35,6 +35,6 @@ class TestCardModel(hypothesis.extra.django.TestCase):
         suit=st.characters(exclude_characters=Suit.values) | st.just(None),
     )
     def test_invalid_suit(self, number: Number, suit: str):
+        card = Card(number=number, suit=suit)
         with pytest.raises(ValidationError):
-            card = Card(number=number, suit=suit)
             card.full_clean()

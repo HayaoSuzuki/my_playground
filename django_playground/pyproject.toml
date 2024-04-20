@@ -3,6 +3,7 @@ exclude = [
     ".venv",
     "manage.py",
     "db.sqlite3",
+    "migrations",
 ]
 line-length = 100
 
@@ -19,8 +20,13 @@ select = [
     "FBT", # flake8-boolean-trap
     "B", # flake8-bugbear
     "A", # flake8-builtins
+    "C4",  # flake8-comprehensions
     "DJ", # flake8-django
     "INP", # flake8-no-pep420
+    "PT",  # flake8-pytest-style
+    "SIM", # flake8-simplify
+    "ARG", # flake8-unused-arguments
+    "RUF", # Ruff-specific rules
 ]
 ignore = ["E501"]
 

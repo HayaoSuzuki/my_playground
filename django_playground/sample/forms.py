@@ -1,3 +1,5 @@
+import typing
+
 from django.forms import ModelForm
 
 from .models import Card
@@ -5,5 +7,5 @@ from .models import Card
 
 class CardModelForm(ModelForm):
     class Meta:
-        model = Card
-        fields = ["number", "suit"]
+        model: typing.ClassVar[typing.Type[Card]] = Card
+        fields: typing.ClassVar[list[str]] = ["number", "suit"]

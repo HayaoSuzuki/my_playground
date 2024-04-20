@@ -1,4 +1,5 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+import typing
+
 from django.db import models
 
 
@@ -26,17 +27,11 @@ class Suit(models.TextChoices):
 
 
 class Card(models.Model):
-    number = models.IntegerField(
-        choices=Number,
-        validators=(
-            MaxValueValidator(Number.KING.value),
-            MinValueValidator(Number.ACE.value),
-        ),
-    )
+    number = models.PositiveSmallIntegerField(choices=Number)
     suit = models.CharField(max_length=1, choices=Suit)
 
     class Meta:
-        constraints = [
+        constraints: typing.ClassVar[list[models.CheckConstraint]] = [
             models.CheckConstraint(check=models.Q(number__in=Number.values), name="number_check"),
             models.CheckConstraint(check=models.Q(suit__in=Suit.values), name="suit_check"),
         ]
