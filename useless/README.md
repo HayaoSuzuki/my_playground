@@ -1,21 +1,22 @@
 # useless
 
-[![PyPI - Version](https://img.shields.io/pypi/v/useless.svg)](https://pypi.org/project/useless)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/useless.svg)](https://pypi.org/project/useless)
+## Commands
 
------
-
-## Table of Contents
-
-- [Installation](#installation)
-- [License](#license)
-
-## Installation
+### format & lint
 
 ```console
-pip install useless
+hatch fmt
+hatch fmt --check
 ```
 
-## License
+### test
 
-`useless` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+```console
+hatch test --all --randomize
+```
+
+### type check
+
+```console
+hatch run types:check
+```

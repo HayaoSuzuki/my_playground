@@ -7,7 +7,7 @@ name = "useless"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = "MIT"
 keywords = []
 authors = [
@@ -15,9 +15,6 @@ authors = [
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -34,28 +31,25 @@ Source = "https://github.com/Hayao Suzuki/useless"
 [tool.hatch.version]
 path = "src/useless/__about__.py"
 
+[tool.hatch.envs.default]
+installer = "uv"
+
+[tool.hatch.envs.hatch-test]
+dependencies = [
+    "hypothesis==6.100.*",
+    "pytest==8.*",
+    "pytest-randomly==3.15.*",
+]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.10", "3.11", "3.12"]
+
 [tool.hatch.envs.types]
 extra-dependencies = [
-  "mypy>=1.0.0",
+  "mypy==1.10.*",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/useless tests}"
+check = "mypy --strict {args:src}"
 
-[tool.coverage.run]
-source_pkgs = ["useless", "tests"]
-branch = true
-parallel = true
-omit = [
-  "src/useless/__about__.py",
-]
-
-[tool.coverage.paths]
-useless = ["src/useless", "*/useless/src/useless"]
-tests = ["tests", "*/useless/tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
+[[tool.hatch.envs.types.matrix]]
+python = ["3.10", "3.11", "3.12"]
