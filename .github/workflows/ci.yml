@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   tests_for_django_playground:
@@ -24,3 +27,22 @@ jobs:
         run: | 
           cd django_playground
           tox run-parallel --skip-env format
+  tests_for_useless:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python: [ "3.10", "3.11", "3.12" ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Hatch
+        run: pip install --upgrade hatch
+      - name: Run lint
+        run: |
+          cd useless
+          hatch fmt --check
+          hatch test -i py=${{ matrix.python }} --randomize
