@@ -46,4 +46,4 @@ jobs:
           cd useless
           hatch fmt --check
           hatch test -i py=${{ matrix.python }} --randomize
-          hatch run -i py=${{ matrix.python }} types:check
+          hatch env run types:check

@@ -50,6 +50,3 @@ extra-dependencies = [
 ]
 [tool.hatch.envs.types.scripts]
 check = "mypy --strict {args:src}"
-
-[[tool.hatch.envs.types.matrix]]
-python = ["3.10", "3.11", "3.12"]
